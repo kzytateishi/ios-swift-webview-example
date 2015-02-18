@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIWebViewDelegate {
     
     var webView: UIWebView?
     
@@ -35,12 +35,18 @@ class ViewController: UIViewController {
         
         // 指定したページを読み込む
         self.webView?.loadRequest(request)
+        
+        // インジケータを表示する
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
     // WebView を生成する
     func createWebView(#frame: CGRect) -> UIWebView {
         // UIWebViewのインスタンスを生成
         let _webView = UIWebView()
+        
+        // デリゲートを指定する
+        _webView.delegate = self;
         
         // 画面サイズを設定する
         _webView.frame = frame
@@ -60,6 +66,13 @@ class ViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         let statusBarHeight: CGFloat! = UIApplication.sharedApplication().statusBarFrame.height
         self.webView?.frame = CGRectMake(0, statusBarHeight, self.view.bounds.width, self.view.bounds.height)
+    }
+    
+    
+    // WebView がコンテンツの読み込みを完了した後に呼ばれる
+    func webViewDidFinishLoad(webView: UIWebView) {
+        // インジケータを非表示にする
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 
     override func didReceiveMemoryWarning() {
