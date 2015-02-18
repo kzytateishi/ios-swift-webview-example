@@ -18,8 +18,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // 横幅、高さ、ステータスバーの高さを取得する
+        let width: CGFloat! = self.view.bounds.width
+        let height: CGFloat! = self.view.bounds.height
+        let statusBarHeight: CGFloat! = UIApplication.sharedApplication().statusBarFrame.height
+        
         // WebViewを生成する
-        self.webView = self.createWebView()
+        self.webView = self.createWebView(frame: CGRectMake(0, statusBarHeight, width, height - statusBarHeight))
         
         // サブビューを追加する
         self.view.addSubview(self.webView!)
@@ -33,12 +38,12 @@ class ViewController: UIViewController {
     }
     
     // WebView を生成する
-    func createWebView() -> UIWebView {
+    func createWebView(#frame: CGRect) -> UIWebView {
         // UIWebViewのインスタンスを生成
         let _webView = UIWebView()
         
-        // 全画面表示にする
-        _webView.frame = self.view.bounds
+        // 画面サイズを設定する
+        _webView.frame = frame
         
         return _webView
     }
