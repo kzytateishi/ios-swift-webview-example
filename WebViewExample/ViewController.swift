@@ -45,7 +45,21 @@ class ViewController: UIViewController {
         // 画面サイズを設定する
         _webView.frame = frame
         
+        // ビューサイズの自動調整
+        _webView.autoresizingMask = UIViewAutoresizing.FlexibleRightMargin |
+            UIViewAutoresizing.FlexibleTopMargin |
+            UIViewAutoresizing.FlexibleLeftMargin |
+            UIViewAutoresizing.FlexibleBottomMargin |
+            UIViewAutoresizing.FlexibleWidth |
+            UIViewAutoresizing.FlexibleHeight
+        
         return _webView
+    }
+    
+    // ビューが再レイアウトされるときに呼び出される
+    override func viewWillLayoutSubviews() {
+        let statusBarHeight: CGFloat! = UIApplication.sharedApplication().statusBarFrame.height
+        self.webView?.frame = CGRectMake(0, statusBarHeight, self.view.bounds.width, self.view.bounds.height)
     }
 
     override func didReceiveMemoryWarning() {
